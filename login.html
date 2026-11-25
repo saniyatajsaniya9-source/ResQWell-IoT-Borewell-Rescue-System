@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQwell - Sign in</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #edf3f8;
+            color: #172033;
+        }
+        * { box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #0b2436, #123a52 45%, #0f5a63);
+        }
+        .login-wrap { width: min(420px, calc(100% - 32px)); padding: 24px 0; }
+        .brand {
+            text-align: center;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: .02em;
+            margin-bottom: 22px;
+        }
+        .card {
+            padding: 32px;
+            color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+            background: linear-gradient(135deg, #3c4b9b, #20295f);
+        }
+        .card h2 {
+            margin: 0 0 6px;
+            font-size: .82rem;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            opacity: .9;
+        }
+        .card p.lead {
+            margin: 0 0 26px;
+            font-size: .9rem;
+            opacity: .8;
+        }
+        .field { margin-bottom: 16px; text-align: left; }
+        .field label {
+            display: block;
+            font-size: .82rem;
+            opacity: .85;
+            margin-bottom: 6px;
+        }
+        .field input {
+            width: 100%;
+            padding: 11px 12px;
+            font-size: .95rem;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+        }
+        .field input::placeholder { color: rgba(255, 255, 255, .55); }
+        .field input:focus { outline: 2px solid rgba(255, 255, 255, .5); }
+        button[type="submit"] {
+            width: 100%;
+            margin-top: 6px;
+            padding: 12px;
+            font-size: .95rem;
+            font-weight: 700;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #16a6a0, #087477);
+            transition: filter .15s ease;
+        }
+        button[type="submit"]:hover { filter: brightness(1.08); }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            font-size: .85rem;
+            color: rgba(255, 255, 255, .75);
+            text-decoration: none;
+        }
+        .back-link:hover { color: #fff; }
+        .error-message {
+            margin-top: 16px;
+            font-size: .85rem;
+            text-align: center;
+            color: #ffb4a8;
+        }
+        .readout-row { display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+        .readout-chip {
+            font-size: .72rem;
+            background: rgba(255, 255, 255, .08);
+            border-radius: 8px;
+            padding: 5px 10px;
+            color: rgba(255, 255, 255, .8);
+        }
+        .readout-chip b { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+        <div class="brand">ResQwell</div>
+        <div class="card">
+            <h2>Sign in</h2>
+            <p class="lead">Sign in to view live Rescue Mission Dashboard.</p>
+
+            <form th:action="@{/AQI/data/login}" method="post">
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus>
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">Sign in</button>
+            </form>
+            <a class="back-link" href="/">Cancel</a>
+
+            <p class="error-message" th:if="${error}" th:text="${error}"></p>
+        </div>
+
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQwell - Rescue Mission Dashboard</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #edf3f8;
+            color: #172033;
+        }
+        * { box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(160deg, #0b2436, #123a52 45%, #0f5a63);
+        }
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px clamp(20px, 5vw, 72px);
+            color: #fff;
+            background: rgba(8, 18, 31, .88);
+            backdrop-filter: blur(10px);
+        }
+        .brand { font-size: 1.3rem; font-weight: 800; letter-spacing: .02em; }
+        .dashboard { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 44px 0 56px; }
+        .dashboard h1 { margin: 0 0 28px; color: #fff; font-size: clamp(1.8rem, 4vw, 3rem); }
+        .card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .card {
+            min-height: 150px;
+            padding: 22px;
+            color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(0, 0, 0, .25); }
+        .card h2 { margin: 0 0 18px; font-size: .82rem; text-transform: uppercase; letter-spacing: .1em; opacity: .9; }
+        .value { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; }
+        .unit { margin-left: 5px; font-size: 1rem; font-weight: 600; opacity: .85; }
+        .temperature { background: linear-gradient(135deg, #ee8d34, #c9452d); }
+        .humidity { background: linear-gradient(135deg, #2878d0, #164a9c); }
+        .advice { grid-column: span 3; background: linear-gradient(135deg, #3c4b9b, #20295f); }
+        .text-value { font-size: clamp(1.15rem, 2vw, 1.65rem); line-height: 1.4; font-weight: 700; }
+
+        /* AQI severity colors (US EPA scale) */
+        .aqi-good { background: linear-gradient(135deg, #4cb56f, #1f7a41); }
+        .aqi-moderate { background: linear-gradient(135deg, #e0c73e, #a68a12); }
+        .aqi-usg { background: linear-gradient(135deg, #f0923e, #b85c15); }
+        .aqi-unhealthy { background: linear-gradient(135deg, #e2544c, #a02b25); }
+        .aqi-very-unhealthy { background: linear-gradient(135deg, #9a4fc9, #5f2a83); }
+        .aqi-hazardous { background: linear-gradient(135deg, #7a2634, #4a1017); }
+        .aqi-invalid { background: linear-gradient(135deg, #616e85, #3c4557); }
+
+        footer { padding: 18px; color: rgba(255,255,255,.75); text-align: center; }
+        @media (max-width: 900px) {
+            .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .advice { grid-column: span 2; }
+        }
+        @media (max-width: 560px) {
+            .dashboard { width: min(100% - 24px, 500px); padding-top: 28px; }
+            .card-grid { grid-template-columns: 1fr; }
+            .advice { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <main class="dashboard">
+        <h1>ResQwell - Rescue Mission Dashboard</h1>
+        <section class="card-grid" aria-label="Shaft environmental metrics">
+            <article class="card temperature"><h2>Shaft Temperature</h2><div class="value"><span th:text="${temperature}">-</span><span class="unit" th:if="${sensorDataReceived}">&deg;C</span></div><div class="text-value" style="font-size:1rem;opacity:.9;margin-top:6px" th:if="${sensorDataReceived}" th:text="${temperatureStatus}"></div></article>
+            <article class="card humidity"><h2>Shaft Humidity</h2><div class="value"><span th:text="${humidity}">-</span><span class="unit" th:if="${sensorDataReceived}">%</span></div><div class="text-value" style="font-size:1rem;opacity:.9;margin-top:6px" th:if="${sensorDataReceived}" th:text="${humidityStatus}"></div></article>
+            <article class="card" th:classappend="${aqiCssClass}"><h2>Air Quality (O&#8322; / Gas Level)</h2><div class="value"><span th:text="${aqi}">-</span></div><div class="text-value" style="font-size:1rem;opacity:.9;margin-top:6px" th:text="${aqiCategory}"></div></article>
+            <article class="card advice"><h2>Rescue Advisory</h2><div class="text-value" th:text="${advice}">Please send sensor data to view a live assessment.</div></article>
+        </section>
+    </main>
+    <footer>&copy; 2026 ResQwell &middot; <a href="/AQI/data/logout" style="color:inherit">Logout</a></footer>
+</body>
+</html>
